@@ -5,7 +5,20 @@ import { CreateJogoDto } from "../dtos/create-jogo.dto";
 export class JogoRepository {
     public async listar() {
         try {
-            
+            const jogos = await prisma.jogo.findMany({
+                orderBy: [
+                    {
+                        dataLancamento: "asc"
+                    },
+                    {
+                        nome: "asc"
+                    }
+                ]
+            });
+
+            console.log("Jogos registrados:")
+
+            return jogos;
         } catch (error: any) {
             return handleError(error);
         }
@@ -18,7 +31,7 @@ export class JogoRepository {
             });
 
             console.log("Jogo incluído com sucesso!")
-            
+
             return jogo;
         } catch (error: any) {
             return handleError(error);
