@@ -59,8 +59,18 @@ async function main() {
 
     // 2 - Listar jogos
 
-    const jogos = await jogoRepository.listar();
-    console.log(jogos);
+    // const jogos = await jogoRepository.listar();
+    // console.log(jogos);
+
+    // 3 - Atualizar jogo
+
+    const jogoAtualizado = await jogoRepository.atualizar(
+        "e250a249-0d1d-4652-99c8-5fb364fd42fe",
+        {
+            genero: "Survival"
+        }
+    );
+    console.log(jogoAtualizado);
 };
 
 main ();

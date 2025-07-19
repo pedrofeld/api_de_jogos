@@ -1,6 +1,7 @@
 import { handleError } from "../config/error.handler";
 import { prisma } from "../config/prisma.config";
 import { CreateJogoDto } from "../dtos/create-jogo.dto";
+import { UpdateJogoDto } from "../dtos/update-jogo.dto";
 
 export class JogoRepository {
     public async listar() {
@@ -38,9 +39,25 @@ export class JogoRepository {
         }
     };
 
-    public async atualizar() {
+    public async atualizar(id: string, dados: UpdateJogoDto) {
         try {
-            
+            const jogo = await prisma.jogo.update({
+                where: {
+                    id
+                },
+                data: {
+                    nome: dados.nome,
+                    genero: dados.genero,
+                    preco: dados.preco,
+                    tamanho: dados.tamanho,
+                    dataLancamento: dados.dataLancamento,
+                    multiplayer: dados.multiplayer
+                }
+            });
+
+            console.log("Dados alterados com sucesso!")
+
+            return jogo
         } catch (error: any) {
             return handleError(error);
         }
