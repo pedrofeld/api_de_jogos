@@ -13,3 +13,21 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Jogo {
+  id String @id @default(uuid())
+  genero String @db.VarChar(9)
+  preco Decimal
+  tamanho Int
+  dataLancamento DateTime
+  multiplayer Boolean
+}
+
+model Personagem {
+  id String @id @default(uuid())
+  nome String @db.VarChar(120)
+  idade Int
+  forca Int
+  inteligencia Int
+  habilidades String
+}
