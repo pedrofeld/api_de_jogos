@@ -1,8 +1,10 @@
 import { prisma } from "./config/prisma.config";
 import { JogoRepository } from "./database/jogo.repository";
 import { Decimal } from "@prisma/client/runtime/library";
+import { PersonagemRepository } from "./database/personagem.repository";
 
 const jogoRepository = new JogoRepository();
+const personagemRepository = new PersonagemRepository();
 
 async function main() {
     // 1 - Criar novo jogo
@@ -76,6 +78,43 @@ async function main() {
 
     // const jogo = await jogoRepository.deletar("e250a249-0d1d-4652-99c8-5fb364fd42fe");
     // console.log(jogo);
+
+    // 5 - Criar personagem
+
+    // const personagem = await personagemRepository.incluir({
+    //     nome: "Ellie",
+    //     idade: 19,
+    //     forca: 70,
+    //     inteligencia: 90,
+    //     habilidades: "Stealth, Arco, Faca",
+    //     jogoId: "e01bdb54-efa3-420a-b09f-c8955338a368"
+    // });
+    // console.log(personagem);
+
+    // 6 - Listar personagens
+
+    // const personagens = await personagemRepository.listar();
+    // console.log(personagens);
+
+    // 7 - Atualizar personagem
+
+    // const personagemAtualizado = await personagemRepository.atualizar(
+    //     "4da0d7f6-bade-4ec4-b61d-52b2064198bc",
+    //     {
+    //         nome: "Ellie Williams",
+    //         idade: 20,
+    //         forca: 75,
+    //         inteligencia: 92,
+    //         habilidades: "Stealth, Arco, Faca, Pistola",
+    //         jogoId: "e01bdb54-efa3-420a-b09f-c8955338a368"
+    //     }
+    // );
+    // console.log(personagemAtualizado);
+
+    // 8 - Deletar personagem
+
+    // const personagemDeletado = await personagemRepository.deletar("4da0d7f6-bade-4ec4-b61d-52b2064198bc");
+    // console.log(personagemDeletado);
 };
 
 main ();

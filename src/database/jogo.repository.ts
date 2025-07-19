@@ -7,6 +7,9 @@ export class JogoRepository {
     public async listar() {
         try {
             const jogos = await prisma.jogo.findMany({
+                include: {
+                    personagem: true
+                },
                 orderBy: [
                     {
                         dataLancamento: "asc"
@@ -17,9 +20,25 @@ export class JogoRepository {
                 ]
             });
 
-            console.log("Jogos registrados:");
+            for (const jogo of jogos) {
+                console.log(`\n🎮 ${jogo.nome}`);
+                console.log(`Id: ${jogo.id}`);
+                console.log(`Lançamento: ${jogo.dataLancamento.toLocaleDateString("pt-BR")}`);
+                console.log(`Gênero: ${jogo.genero}`);
+                console.log(`Preço: R$ ${jogo.preco.toFixed(2)}`);
+                console.log(`amanho: ${jogo.tamanho} GB`);
+                console.log(`Multiplayer: ${jogo.multiplayer ? "Sim" : "Não"}`);
 
-            return jogos;
+                if (jogo.personagem.length > 0) {
+                    console.log("👤 Personagens:");
+                    for (const p of jogo.personagem) {
+                        console.log(`   - ${p.nome} | Idade: ${p.idade} | Força: ${p.forca} | Inteligência: ${p.inteligencia}`);
+                        console.log(`     Habilidades: ${p.habilidades}`);
+                    }
+                } else {
+                    console.log("⚠️ Nenhum personagem cadastrado.");
+                }
+            }
         } catch (error: any) {
             return handleError(error);
         }
