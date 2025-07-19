@@ -64,13 +64,18 @@ async function main() {
 
     // 3 - Atualizar jogo
 
-    const jogoAtualizado = await jogoRepository.atualizar(
-        "e250a249-0d1d-4652-99c8-5fb364fd42fe",
-        {
-            genero: "Survival"
-        }
-    );
-    console.log(jogoAtualizado);
+    // const jogoAtualizado = await jogoRepository.atualizar(
+    //     "e250a249-0d1d-4652-99c8-5fb364fd42fe",
+    //     {
+    //         genero: "Survival"
+    //     }
+    // );
+    // console.log(jogoAtualizado);
+
+    // 4 - Excluir jogo
+
+    // const jogo = await jogoRepository.deletar("e250a249-0d1d-4652-99c8-5fb364fd42fe");
+    // console.log(jogo);
 };
 
 main ();

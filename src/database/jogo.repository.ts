@@ -17,7 +17,7 @@ export class JogoRepository {
                 ]
             });
 
-            console.log("Jogos registrados:")
+            console.log("Jogos registrados:");
 
             return jogos;
         } catch (error: any) {
@@ -31,7 +31,7 @@ export class JogoRepository {
                 data: dados
             });
 
-            console.log("Jogo incluído com sucesso!")
+            console.log("Jogo incluído com sucesso!");
 
             return jogo;
         } catch (error: any) {
@@ -55,17 +55,25 @@ export class JogoRepository {
                 }
             });
 
-            console.log("Dados alterados com sucesso!")
+            console.log("Dados alterados com sucesso!");
 
-            return jogo
+            return jogo;
         } catch (error: any) {
             return handleError(error);
         }
     };
 
-    public async deletar(){
+    public async deletar(id: string){
         try {
-            
+            const jogo = await prisma.jogo.delete({
+                where: {
+                    id
+                }
+            });
+
+            console.log("Jogo deletado com sucesso!");
+
+            return jogo;
         } catch (error: any) {
             return handleError(error);
         }
