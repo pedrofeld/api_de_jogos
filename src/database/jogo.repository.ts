@@ -11,9 +11,15 @@ export class JogoRepository {
         }
     };
 
-    public async incluir() {
+    public async incluir(dados: CreateJogoDto) {
         try {
+            const jogo = await prisma.jogo.create({
+                data: dados
+            });
+
+            console.log("Jogo incluído com sucesso!")
             
+            return jogo;
         } catch (error: any) {
             return handleError(error);
         }
