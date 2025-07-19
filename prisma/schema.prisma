@@ -21,6 +21,11 @@ model Jogo {
   tamanho Int
   dataLancamento DateTime
   multiplayer Boolean
+
+  dataCriacao DateTime @default(now()) @map("data_criacao")
+  dataAtualizacao DateTime @default(now()) @map("data_atualizacao")
+
+  @@map("jogo")
 }
 
 model Personagem {
@@ -30,4 +35,9 @@ model Personagem {
   forca Int
   inteligencia Int
   habilidades String
+
+  dataCriacao DateTime @default(now()) @map("data_criacao")
+  dataAtualizacao DateTime @default(now()) @map("data_atualizacao")
+
+  @@map("personagem")
 }
