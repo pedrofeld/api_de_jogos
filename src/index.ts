@@ -2,7 +2,7 @@ import { prisma } from "./config/prisma.config";
 import { JogoRepository } from "./database/jogo.repository";
 import { Decimal } from "@prisma/client/runtime/library";
 import { PersonagemRepository } from "./database/personagem.repository";
-import express from 'express';
+import { handleError } from "./config/error.handler";
 
 const jogoRepository = new JogoRepository();
 const personagemRepository = new PersonagemRepository();
@@ -119,10 +119,3 @@ async function main() {
 };
 
 main ();
-
-const app = express();
-app.use(express.json());
-
-app.listen(3333, () => {
-    console.log("API está executando na porta 3333")
-});
