@@ -22,6 +22,8 @@ model Jogo {
   dataLancamento DateTime
   multiplayer Boolean
 
+  personagem Personagem[]
+
   dataCriacao DateTime @default(now()) @map("data_criacao")
   dataAtualizacao DateTime @default(now()) @map("data_atualizacao")
 
@@ -35,6 +37,9 @@ model Personagem {
   forca Int
   inteligencia Int
   habilidades String
+
+  jogoId String
+  jogo Jogo @relation(fields: [jogoId], references: [id])
 
   dataCriacao DateTime @default(now()) @map("data_criacao")
   dataAtualizacao DateTime @default(now()) @map("data_atualizacao")
