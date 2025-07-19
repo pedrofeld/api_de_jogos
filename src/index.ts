@@ -2,127 +2,212 @@ import { prisma } from "./config/prisma.config";
 import { JogoRepository } from "./database/jogo.repository";
 import { Decimal } from "@prisma/client/runtime/library";
 import { PersonagemRepository } from "./database/personagem.repository";
-import express from 'express';
+import { handleError } from "./config/error.handler";
 
-const jogoRepository = new JogoRepository();
-const personagemRepository = new PersonagemRepository();
+// ----- VIA BACK-END --------
 
-async function main() {
-    // 1 - Criar novo jogo
+// const jogoRepository = new JogoRepository();
+// const personagemRepository = new PersonagemRepository();
 
-    // const jogo = await jogoRepository.incluir({
-    //     nome: "Identity V",
-    //     genero: "Ação",
-    //     preco: new Decimal(0),
-    //     tamanho: 1,
-    //     dataLancamento: new Date("2018-07-30"),
-    //     multiplayer: true
-    // });
-    // console.log(jogo);
+// async function main() {
+//     // 1 - Criar novo jogo
 
-    // const jogo2 = await jogoRepository.incluir({
-    //     nome: "Dead by Daylight",
-    //     genero: "Ação",
-    //     preco: new Decimal(79.90),
-    //     tamanho: 20,
-    //     dataLancamento: new Date("2016-06-14"),
-    //     multiplayer: true
-    // });
-    // console.log(jogo2);
+//     // const jogo = await jogoRepository.incluir({
+//     //     nome: "Identity V",
+//     //     genero: "Ação",
+//     //     preco: new Decimal(0),
+//     //     tamanho: 1,
+//     //     dataLancamento: new Date("2018-07-30"),
+//     //     multiplayer: true
+//     // });
+//     // console.log(jogo);
 
-    // const jogo3 = await jogoRepository.incluir({
-    //     nome: "The Last of Us Part II",
-    //     genero: "Ação",
-    //     preco: new Decimal(249.90),
-    //     tamanho: 100,
-    //     dataLancamento: new Date("2020-06-19"),
-    //     multiplayer: true
-    // });
-    // console.log(jogo3);
+//     // const jogo2 = await jogoRepository.incluir({
+//     //     nome: "Dead by Daylight",
+//     //     genero: "Ação",
+//     //     preco: new Decimal(79.90),
+//     //     tamanho: 20,
+//     //     dataLancamento: new Date("2016-06-14"),
+//     //     multiplayer: true
+//     // });
+//     // console.log(jogo2);
 
-    // const jogo4 = await jogoRepository.incluir({
-    //     nome: "The Witcher 3: Wild Hunt",
-    //     genero: "Ação",
-    //     preco: new Decimal(89.99),
-    //     tamanho: 50,
-    //     dataLancamento: new Date("2015-05-19"),
-    //     multiplayer: true
-    // });
-    // console.log(jogo4);
+//     // const jogo3 = await jogoRepository.incluir({
+//     //     nome: "The Last of Us Part II",
+//     //     genero: "Ação",
+//     //     preco: new Decimal(249.90),
+//     //     tamanho: 100,
+//     //     dataLancamento: new Date("2020-06-19"),
+//     //     multiplayer: true
+//     // });
+//     // console.log(jogo3);
 
-    // const jogo5 = await jogoRepository.incluir({
-    //     nome: "Cyberpunk",
-    //     genero: "Ação",
-    //     preco: new Decimal(199.90),
-    //     tamanho: 70,
-    //     dataLancamento: new Date("2020-12-10"),
-    //     multiplayer: true
-    // });
-    // console.log(jogo5);
+//     // const jogo4 = await jogoRepository.incluir({
+//     //     nome: "The Witcher 3: Wild Hunt",
+//     //     genero: "Ação",
+//     //     preco: new Decimal(89.99),
+//     //     tamanho: 50,
+//     //     dataLancamento: new Date("2015-05-19"),
+//     //     multiplayer: true
+//     // });
+//     // console.log(jogo4);
 
-    // 2 - Listar jogos
+//     // const jogo5 = await jogoRepository.incluir({
+//     //     nome: "Cyberpunk",
+//     //     genero: "Ação",
+//     //     preco: new Decimal(199.90),
+//     //     tamanho: 70,
+//     //     dataLancamento: new Date("2020-12-10"),
+//     //     multiplayer: true
+//     // });
+//     // console.log(jogo5);
 
-    // const jogos = await jogoRepository.listar();
-    // console.log(jogos);
+//     // 2 - Listar jogos
 
-    // 3 - Atualizar jogo
+//     // const jogos = await jogoRepository.listar();
+//     // console.log(jogos);
 
-    // const jogoAtualizado = await jogoRepository.atualizar(
-    //     "e250a249-0d1d-4652-99c8-5fb364fd42fe",
-    //     {
-    //         genero: "Survival"
-    //     }
-    // );
-    // console.log(jogoAtualizado);
+//     // 3 - Atualizar jogo
 
-    // 4 - Excluir jogo
+//     // const jogoAtualizado = await jogoRepository.atualizar(
+//     //     "e250a249-0d1d-4652-99c8-5fb364fd42fe",
+//     //     {
+//     //         genero: "Survival"
+//     //     }
+//     // );
+//     // console.log(jogoAtualizado);
 
-    // const jogo = await jogoRepository.deletar("e250a249-0d1d-4652-99c8-5fb364fd42fe");
-    // console.log(jogo);
+//     // 4 - Excluir jogo
 
-    // 5 - Criar personagem
+//     // const jogo = await jogoRepository.deletar("e250a249-0d1d-4652-99c8-5fb364fd42fe");
+//     // console.log(jogo);
 
-    // const personagem = await personagemRepository.incluir({
-    //     nome: "Ellie",
-    //     idade: 19,
-    //     forca: 70,
-    //     inteligencia: 90,
-    //     habilidades: "Stealth, Arco, Faca",
-    //     jogoId: "e01bdb54-efa3-420a-b09f-c8955338a368"
-    // });
-    // console.log(personagem);
+//     // 5 - Criar personagem
 
-    // 6 - Listar personagens
+//     // const personagem = await personagemRepository.incluir({
+//     //     nome: "Ellie",
+//     //     idade: 19,
+//     //     forca: 70,
+//     //     inteligencia: 90,
+//     //     habilidades: "Stealth, Arco, Faca",
+//     //     jogoId: "e01bdb54-efa3-420a-b09f-c8955338a368"
+//     // });
+//     // console.log(personagem);
 
-    // const personagens = await personagemRepository.listar();
-    // console.log(personagens);
+//     // 6 - Listar personagens
 
-    // 7 - Atualizar personagem
+//     // const personagens = await personagemRepository.listar();
+//     // console.log(personagens);
 
-    // const personagemAtualizado = await personagemRepository.atualizar(
-    //     "4da0d7f6-bade-4ec4-b61d-52b2064198bc",
-    //     {
-    //         nome: "Ellie Williams",
-    //         idade: 20,
-    //         forca: 75,
-    //         inteligencia: 92,
-    //         habilidades: "Stealth, Arco, Faca, Pistola",
-    //         jogoId: "e01bdb54-efa3-420a-b09f-c8955338a368"
-    //     }
-    // );
-    // console.log(personagemAtualizado);
+//     // 7 - Atualizar personagem
 
-    // 8 - Deletar personagem
+//     // const personagemAtualizado = await personagemRepository.atualizar(
+//     //     "4da0d7f6-bade-4ec4-b61d-52b2064198bc",
+//     //     {
+//     //         nome: "Ellie Williams",
+//     //         idade: 20,
+//     //         forca: 75,
+//     //         inteligencia: 92,
+//     //         habilidades: "Stealth, Arco, Faca, Pistola",
+//     //         jogoId: "e01bdb54-efa3-420a-b09f-c8955338a368"
+//     //     }
+//     // );
+//     // console.log(personagemAtualizado);
 
-    // const personagemDeletado = await personagemRepository.deletar("4da0d7f6-bade-4ec4-b61d-52b2064198bc");
-    // console.log(personagemDeletado);
-};
+//     // 8 - Deletar personagem
 
-main ();
+//     // const personagemDeletado = await personagemRepository.deletar("4da0d7f6-bade-4ec4-b61d-52b2064198bc");
+//     // console.log(personagemDeletado);
+// };
+
+// main ();
+
+// --------- VIA API ----------
+
+import express from "express";
 
 const app = express();
+const port = 3000;
+
 app.use(express.json());
 
-app.listen(3333, () => {
-    console.log("API está executando na porta 3333")
+const jogoRepo = new JogoRepository();
+const personagemRepo = new PersonagemRepository();
+
+// Rota para listar jogos
+app.get("/jogos", async (req, res) => {
+    const jogos = await jogoRepo.listar();
+    res.json(jogos);
+});
+
+// Rota para adicionar um jogo
+app.post("/jogos", async (req, res) => {
+    const novoJogo = await jogoRepo.incluir(req.body);
+    res.status(201).json(novoJogo);
+});
+
+// Rota para editar um jogo
+app.put("/jogos/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const dados = req.body;
+
+        const jogoAtualizado = await jogoRepo.atualizar(id, dados);
+        res.json(jogoAtualizado);
+    } catch (error: any) {
+        res.status(400).json({ erro: error.message });
+    }
+});
+
+// Rota para deletar um jogo
+app.delete("/jogos/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const jogoExcluido = await jogoRepo.deletar(id);
+        res.json({ mensagem: "Jogo excluído com sucesso", jogo: jogoExcluido });
+    } catch (error: any) {
+        res.status(400).json({ erro: error.message });
+    }
+});
+
+// Rota para listar personagens
+app.get("/personagens", async (req, res) => {
+    const personagens = await personagemRepo.listar();
+    res.json(personagens);
+});
+
+// Rota para adicionar um personagem
+app.post("/personagens", async (req, res) => {
+    const novo = await personagemRepo.incluir(req.body);
+    res.status(201).json(novo);
+});
+
+// Rota para editar um personagem
+app.put("/personagens/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const dados = req.body;
+
+        const personagemAtualizado = await personagemRepo.atualizar(id, dados);
+        res.json(personagemAtualizado);
+    } catch (error: any) {
+        res.status(400).json({ erro: error.message });
+    }
+});
+
+// Rota para deletar um personagem
+app.delete("/personagens/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const personagemExcluido = await personagemRepo.deletar(id);
+        res.json({ mensagem: "Personagem excluído com sucesso", personagem: personagemExcluido });
+    } catch (error: any) {
+        res.status(400).json({ erro: error.message });
+    }
+});
+
+app.listen(port, () => {
+    console.log(`API rodando em http://localhost:${port}`);
 });
