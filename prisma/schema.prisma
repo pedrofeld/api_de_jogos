@@ -15,13 +15,13 @@ datasource db {
 }
 
 model Jogo {
-  id String @id @default(uuid())
+  id String @db.Uuid @id @default(uuid())
   nome String @db.VarChar(120)
   genero String @db.VarChar(9)
   preco Decimal
   tamanho Int
-  dataLancamento DateTime
-  multiplayer Boolean
+  dataLancamento DateTime @db.Date
+  multiplayer Boolean @default(true)
 
   personagem Personagem[]
 
@@ -32,14 +32,14 @@ model Jogo {
 }
 
 model Personagem {
-  id String @id @default(uuid())
+  id String @db.Uuid @id @default(uuid())
   nome String @db.VarChar(120)
   idade Int
   forca Int
   inteligencia Int
   habilidades String
 
-  jogoId String
+  jogoId String @db.Uuid
   jogo Jogo @relation(fields: [jogoId], references: [id])
 
   dataCriacao DateTime @default(now()) @map("data_criacao")
