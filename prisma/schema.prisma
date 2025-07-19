@@ -16,6 +16,7 @@ datasource db {
 
 model Jogo {
   id String @id @default(uuid())
+  nome String @db.VarChar(120)
   genero String @db.VarChar(9)
   preco Decimal
   tamanho Int
