@@ -135,25 +135,78 @@ const jogoRepo = new JogoRepository();
 const personagemRepo = new PersonagemRepository();
 
 // Rota para listar jogos
-app.get("/jogos", async (req, res) => {
-    const jogos = await jogoRepo.listar();
-    res.json(jogos);
+app.get("/jogos", async (req, res): Promise<any> => {
+    try {
+        const jogos = await jogoRepo.listar();
+        return res.status(200).send({
+            ok: true,
+            message: "Jogos encontrados com sucesso",
+            data: jogos
+        });
+    } catch (error) {
+        return handleError(error);  
+    }
 });
 
 // Rota para adicionar um jogo
 app.post("/jogos", async (req, res) => {
-    const novoJogo = await jogoRepo.incluir(req.body);
-    res.status(201).json(novoJogo);
+    try {
+        const { nome, genero, preco, tamanho, dataLancamento, multiplayer } = req.body;
+
+        if (!nome || !genero || !preco || !tamanho || !dataLancamento || multiplayer === undefined) {
+            return res.status(400).send({
+                ok: false,
+                message: "Todos os campos são obrigatórios." 
+            });
+        }
+
+        const novoJogo = await jogoRepo.incluir({
+            nome,
+            genero,
+            preco: new Decimal(preco),
+            tamanho,
+            dataLancamento: new Date(dataLancamento),
+            multiplayer
+        });
+
+        res.status(201).send({
+            ok: true,
+            message: "Jogo adicionado com sucesso",
+            data: novoJogo
+        });
+    } catch (error) {
+        return handleError(error);  
+    }
 });
 
 // Rota para editar um jogo
 app.put("/jogos/:id", async (req, res) => {
     try {
-        const { id } = req.params;
-        const dados = req.body;
+        const id = req.params.id;
 
-        const jogoAtualizado = await jogoRepo.atualizar(id, dados);
-        res.json(jogoAtualizado);
+        if (!id) {
+            return res.status(400).send({
+                ok: false,
+                message: "ID do jogo é obrigatório."
+            });
+        }
+
+        const { nome, genero, preco, tamanho, dataLancamento, multiplayer } = req.body;
+
+        if (!nome || !genero || !preco || !tamanho || !dataLancamento || multiplayer === undefined) {
+            return res.status(400).send({
+                ok: false,
+                message: "Todos os campos são obrigatórios." 
+            });
+        }
+        
+        const jogoAtualizado = await jogoRepo.atualizar(id, req.body);
+
+        return res.status(200).send({
+            ok: true,
+            message: "Jogo atualizado com sucesso",
+            data: jogoAtualizado
+        });
     } catch (error: any) {
         res.status(400).json({ erro: error.message });
     }

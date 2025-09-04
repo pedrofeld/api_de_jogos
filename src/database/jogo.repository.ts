@@ -39,6 +39,8 @@ export class JogoRepository {
                     console.log("⚠️ Nenhum personagem cadastrado.");
                 }
             }
+
+            return jogos;
         } catch (error: any) {
             return handleError(error);
         }
@@ -60,6 +62,12 @@ export class JogoRepository {
 
     public async atualizar(id: string, dados: UpdateJogoDto) {
         try {
+            const jogoExiste = await prisma.jogo.findUnique({ where: { id } });
+
+            if (!jogoExiste) {
+                throw new Error("Jogo não encontrado");
+            }
+
             const jogo = await prisma.jogo.update({
                 where: {
                     id
@@ -69,7 +77,7 @@ export class JogoRepository {
                     genero: dados.genero,
                     preco: dados.preco,
                     tamanho: dados.tamanho,
-                    dataLancamento: dados.dataLancamento,
+                    dataLancamento: dados.dataLancamento ? new Date(dados.dataLancamento) : undefined,
                     multiplayer: dados.multiplayer
                 }
             });
