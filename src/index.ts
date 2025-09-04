@@ -208,7 +208,7 @@ app.put("/jogos/:id", async (req, res) => {
             data: jogoAtualizado
         });
     } catch (error: any) {
-        res.status(400).json({ erro: error.message });
+        return handleError(error);
     }
 });
 
@@ -218,22 +218,60 @@ app.delete("/jogos/:id", async (req, res) => {
         const { id } = req.params;
 
         const jogoExcluido = await jogoRepo.deletar(id);
-        res.json({ mensagem: "Jogo excluído com sucesso", jogo: jogoExcluido });
+
+        res.status(200).send({
+            ok: true,
+            message: "Jogo excluído com sucesso",
+            data: jogoExcluido
+        });
     } catch (error: any) {
-        res.status(400).json({ erro: error.message });
+        return handleError(error);
     }
 });
 
 // Rota para listar personagens
 app.get("/personagens", async (req, res) => {
-    const personagens = await personagemRepo.listar();
-    res.json(personagens);
+    try {
+        const personagens = await personagemRepo.listar();
+        return res.status(200).send({
+            ok: true,
+            message: "Personagens encontrados com sucesso",
+            data: personagens
+        });
+    } catch (error) {
+        return handleError(error);  
+    }
 });
 
 // Rota para adicionar um personagem
 app.post("/personagens", async (req, res) => {
-    const novo = await personagemRepo.incluir(req.body);
-    res.status(201).json(novo);
+    try {
+        const { nome, idade, forca, inteligencia, habilidades, jogoId } = req.body;
+
+        if (!nome || !idade || !forca || !inteligencia || !habilidades || !jogoId) {
+            return res.status(400).send({
+                ok: false,
+                message: "Todos os campos são obrigatórios." 
+            });
+        }
+
+        const novoPersonagem = await personagemRepo.incluir({
+            nome,
+            idade,
+            forca,
+            inteligencia,
+            habilidades,
+            jogoId
+        });
+
+        res.status(201).send({
+            ok: true,
+            message: "Personagem adicionado com sucesso",
+            data: novoPersonagem
+        });
+    } catch (error) {
+        return handleError(error);  
+    }
 });
 
 // Rota para editar um personagem
@@ -241,11 +279,15 @@ app.put("/personagens/:id", async (req, res) => {
     try {
         const { id } = req.params;
         const dados = req.body;
-
         const personagemAtualizado = await personagemRepo.atualizar(id, dados);
-        res.json(personagemAtualizado);
+
+        return res.status(200).send({
+            ok: true,
+            message: "Personagem atualizado com sucesso",
+            data: personagemAtualizado
+        });
     } catch (error: any) {
-        res.status(400).json({ erro: error.message });
+        return handleError(error);
     }
 });
 
@@ -253,11 +295,15 @@ app.put("/personagens/:id", async (req, res) => {
 app.delete("/personagens/:id", async (req, res) => {
     try {
         const { id } = req.params;
-
         const personagemExcluido = await personagemRepo.deletar(id);
-        res.json({ mensagem: "Personagem excluído com sucesso", personagem: personagemExcluido });
+
+        res.status(200).send({
+            ok: true,
+            message: "Personagem excluído com sucesso",
+            data: personagemExcluido
+        });
     } catch (error: any) {
-        res.status(400).json({ erro: error.message });
+        return handleError(error);
     }
 });
 
